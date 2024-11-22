@@ -1,37 +1,55 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { Ionicons } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import AboutScreen from "./about";
+import ProdutosScreen from "./produtos";
+import { MainStackRoutes } from "../interface";
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+const Tab = createBottomTabNavigator<MainStackRoutes>();
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+export default function TabsLayout() {
   return (
-    <Tabs
+    <Tab.Navigator
+      initialRouteName="about"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-      }}>
-      <Tabs.Screen
-        name="index"
+        headerTitle: "Home",
+        tabBarActiveTintColor: "#9FC131",
+        headerShadowVisible: false,
+        headerTintColor: "#25292e",
+        tabBarStyle: {
+          backgroundColor: "#042940",
+        },
+      }}
+    >
+      <Tab.Screen
+        name="about"
+        component={AboutScreen}
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+          headerShown: false,
+          title: "Dashboard",
+          tabBarIcon: ({ focused, color }) => (
+            <Ionicons
+              name={focused ? "home-sharp" : "home-outline"}
+              color={color}
+              size={30}
+            />
           ),
         }}
       />
-      <Tabs.Screen
-        name="explore"
+      <Tab.Screen
+        name="produtos"
+        component={ProdutosScreen}
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+          title: "Produtos",
+          headerShown: false,
+          tabBarIcon: ({ focused, color }) => (
+            <Ionicons
+              name={focused ? "cart-sharp" : "cart-outline"}
+              color={color}
+              size={30}
+            />
           ),
         }}
       />
-    </Tabs>
+    </Tab.Navigator>
   );
 }
