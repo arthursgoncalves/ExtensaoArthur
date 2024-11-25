@@ -69,10 +69,10 @@ const AboutScreen = ({
 
       <View style={styles.summaryContainer}>
         <Text style={styles.summaryText}>
-          Valor total em Produtos: R$ {totalSales}
+          Valor total em Produtos: R$ {totalSales},00
         </Text>
         <Text style={styles.summaryText}>
-          Total de Produtos: {totalProductsSold}
+          Produtos em estoque: {totalProductsSold}
         </Text>
       </View>
 
@@ -108,8 +108,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   summaryText: {
-    fontSize: 18,
+    fontSize: 20,
     marginVertical: 4,
+    fontWeight: "bold",
   },
   listHeader: {
     fontSize: 20,

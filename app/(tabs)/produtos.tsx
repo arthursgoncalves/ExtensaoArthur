@@ -1,39 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { useNavigation } from "expo-router";
 import { MainStackRoutes, Product } from "../interface";
 import { StackScreenProps } from "@react-navigation/stack";
 import { useProductStore } from "./productscontroler";
 
+type ProductFormValue = {
+  id?: string;
+  productName?: string;
+  price?: string;
+  quantity?: string;
+};
+
 const ProdutosScreen = ({
   navigation,
   route,
 }: StackScreenProps<MainStackRoutes, "produtos">) => {
-  const product = route.params?.product;
-  const [productName, setName] = useState(product?.productName);
-  const [price, setPrice] = useState(product?.price?.toString());
-  const [quantity, setQuantity] = useState(product?.quantity?.toString());
+  const valueProduct = route.params?.product;
+  const [product, setProduct] = useState<ProductFormValue>({
+    id: valueProduct?.id,
+    productName: valueProduct?.productName,
+    price: valueProduct?.price.toString(),
+    quantity: valueProduct?.quantity.toString(),
+  });
   const { upsertproduto } = useProductStore();
 
-  const handleAddProduct = ({}) => {
-    if (!productName || !price || !quantity) {
-      Alert.alert("Erro", "Por favor, preencha todos os campos.");
-      return;
+  useEffect(() => {
+    if (valueProduct != null) {
+      setProduct({
+        id: valueProduct?.id,
+        productName: valueProduct?.productName,
+        price: valueProduct?.price.toString(),
+        quantity: valueProduct?.quantity.toString(),
+      });
     }
+  }, [valueProduct]);
 
+  const handleAddProduct = ({}) => {
     const newProduct: Product = {
       id: product?.id ?? Date.now().toString(),
-      productName,
-      price: parseFloat(price),
-      quantity: parseInt(quantity, 10),
+      productName: product.productName!,
+      price: parseFloat(product.price!),
+      quantity: parseInt(product.quantity!, 10),
     };
 
-    Alert.alert(
-      "Produto Cadastrado!",
-      `Nome: ${productName}\nPreço: ${price}\nQuantidade: ${quantity}`
-    );
+    Alert.alert("Produto Cadastrado!");
 
     upsertproduto(newProduct);
+    setProduct({});
     navigation.navigate("about");
   };
   return (
@@ -46,23 +60,23 @@ const ProdutosScreen = ({
       <TextInput
         style={styles.input}
         placeholder="Nome do produto"
-        value={productName}
-        onChangeText={setName}
+        value={product.productName}
+        onChangeText={(v) => setProduct({ ...product, productName: v })}
       />
 
       <TextInput
         style={styles.input}
         placeholder="Preço"
         keyboardType="numeric"
-        value={price}
-        onChangeText={setPrice}
+        value={product.price}
+        onChangeText={(v) => setProduct({ ...product, price: v })}
       />
 
       <TextInput
         style={styles.input}
         placeholder="Quantidade de produtos"
-        value={quantity}
-        onChangeText={setQuantity}
+        value={product.quantity}
+        onChangeText={(v) => setProduct({ ...product, quantity: v })}
         keyboardType="numeric"
       />
 
