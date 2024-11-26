@@ -1,6 +1,6 @@
-# Welcome to your Expo app 👋
+# Minerva (Projeto de extensão)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+ Aplicativo desenvolvido utilizando: [Expo](https://expo.dev), React Native, Zustand, React Form Hook.
 
 ## Como rodar o projeto
 
@@ -10,7 +10,7 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npm install
    ```
 
-2. Startar o projeto
+2. Rodar o projeto
 
    ```bash
     npx expo start
